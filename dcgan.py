@@ -39,7 +39,7 @@ beta1 = 0.5
 ngpu = 1
 
 dataset = dset.ImageFolder(root=dataroot,
-                           transrom=transforms.Compose([
+                           transform=transforms.Compose([
                                transforms.Resize(image_size),
                                transforms.CenterCrop(image_size),
                                transforms.ToTensor(),
