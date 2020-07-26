@@ -49,8 +49,47 @@ dataset = dset.ImageFolder(root=dataroot,
 dataloader = torch.utils.data.Dataloader(dataset, batch_size=batch_size, shuffle=True, num_workers=workers)
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
-real_batch = next(iter(dataloader))
-plt.figure(figsize=(8,8))
-plt.axis("off")
-plt.title("Training Images")
-plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(), (1, 2, 0)))
+def weights_init(m):
+    classname = m.__class__.__name__
+    if classname.find('Conv') != -1:
+        nn.init.normal_(m.weight.data, 0.0, 0.02)
+    elif classname.find('BatchNorm') != -1:
+        nn.init.normal_(m.weight.data, 1.0, 0.02)
+        nn.init.constant_(m.bias.data, 0)
+
+class Generator(nn.Module):
+    def __init__(self, ngpu):
+        super(Generator, self).__init__()
+        self.ngpu = ngpu
+        self.main = nn.Sequential(
+            # input is Z, going into a convolution
+            nn.ConvTranspose2d(nz, ngf*8, 4, 1, 0, bias=False),
+            nn.BatchNorm2d(ngf*8),
+            nn.ReLU(True),
+            # state size. (ngf*8) * 4 * 4
+            nn.ConvTranspose2d(ngf*8, ngf*4, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf*4),
+            nn.ReLU(True),
+            # state size. (ngf*4) * 8 * 8
+            nn.ConvTranspose2d(ngf*4, ngf*2, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf*2),
+            nn.ReLU(True),
+            # state size. (ngf*2) * 16 * 16
+            nn.ConvTranspose2d(ngf*2, ngf, 4, 2, 1, bias=False),
+            nn.BatchNorm2d(ngf),
+            nn.ReLU(True),
+            # state size. (ngf) * 32 * 32
+            nn.ConvTranspose2d(ngf, nc, 4, 2, 1, bias=False),
+            nn.Tanh()
+            # state size. (nc) * 64 * 64
+        )
+
+    def forward(self, input):
+        return self.main(input)
+
+netG = Generator(ngpu).to(device)
+if(device.type=='cuda') and (ngpu > 1):
+    netG = nn.DataParallel(netG, list(range(ngpu)))
+netG.apply(weights_init)
+
+print(netG)
