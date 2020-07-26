@@ -46,7 +46,7 @@ dataset = dset.ImageFolder(root=dataroot,
                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
                            ]))
 
-dataloader = torch.utils.data.Dataloader(dataset, batch_size=batch_size, shuffle=True, num_workers=workers)
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=workers)
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")
 
 def weights_init(m):
