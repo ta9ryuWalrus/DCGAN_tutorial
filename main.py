@@ -139,7 +139,7 @@ for epoch in range(num_epochs):
         iters += 1
 
 # loss
-plt.figure(figize=(10, 5))
+plt.figure(figsize=(10, 5))
 plt.title("Generator and Discriminator Loss During Training")
 plt.plot(G_losses, label='G')
 plt.plot(D_losses, label='D')
