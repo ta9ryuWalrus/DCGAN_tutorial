@@ -165,5 +165,5 @@ plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=
 plt.subplot(1, 2, 2)
 plt.axis('off')
 plt.title('Fake Images')
-plt.imshow(np.transpose(image_list[-1], (1, 2, 0)))
+plt.imshow(np.transpose(img_list[-1], (1, 2, 0)))
 plt.savefig(resultroot + "compare.png")
