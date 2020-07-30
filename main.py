@@ -96,7 +96,8 @@ for epoch in range(num_epochs):
     for i, data in enumerate(dataloader, 0):
         # update D network
         # train with real batch
-        netD.zero_grad()
+        #netD.zero_grad()
+        optimizerD.zero_grad()
         real_cpu = data[0].to(device)
         b_size = real_cpu.size(0)
         label = torch.full((b_size, ), real_label, device=device)
@@ -118,7 +119,8 @@ for epoch in range(num_epochs):
         schedulerD.step()
 
         # update G network
-        netG.zero_grad()
+        #netG.zero_grad()
+        optimizerG.zero_grad()
         label.fill_(real_label)
         output = netD(fake).view(-1)
         errG = criterion(output, label)
