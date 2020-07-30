@@ -57,13 +57,13 @@ def weights_init(m):
         nn.init.constant_(m.bias.data, 0)
 
 # generator
-netG = Generator().to(device)
+netG = Generator(nz, ngf, nc).to(device)
 if (device.type=='cuda') and (ngpu > 1):
     netG = nn.DataParallel(netG, list(range(ngpu)))
 netG.apply(weights_init)
 
 # discriminator
-netD = Discriminator().to(device)
+netD = Discriminator(ndf, nc).to(device)
 if (device.type == 'cuda') and (ngpu > 1):
     netD = nn.DataParallel(netD, list(range(ngpu)))
 netD.apply(weights_init)

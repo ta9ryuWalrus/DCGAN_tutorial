@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class Generator(nn.Module):
-    def __init__(self):
+    def __init__(self, nz, ngf, nc):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
             # input is Z, going into a convolution
@@ -31,7 +31,7 @@ class Generator(nn.Module):
         return self.main(input)
 
 class Discriminator(nn.Module):
-    def __init__(self):
+    def __init__(self, ndf, nc):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
             nn.Conv2d(nc, ndf, 4, 2, 1, bias=False),
