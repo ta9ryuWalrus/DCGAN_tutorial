@@ -115,7 +115,7 @@ for epoch in range(num_epochs):
         errD_fake.backward()
         D_G_z1 = output.mean().item()
         errD = errD_real + errD_fake
-        #optimizerD.step()
+        optimizerD.step()
         schedulerD.step()
 
         # update G network
@@ -126,7 +126,7 @@ for epoch in range(num_epochs):
         errG = criterion(output, label)
         errG.backward()
         D_G_z2 = output.mean().item()
-        #optimizerG.step()
+        optimizerG.step()
         schedulerG.step()
 
         # training status
