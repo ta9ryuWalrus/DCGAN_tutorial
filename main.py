@@ -80,6 +80,10 @@ fake_label = 0
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
+# use learning rate scheduler
+schedulerD = optim.lr_scheduler.StepLR(optimizerD, step_size=7500, gamma=0.5)
+schedulerG = optim.lr_scheduler.StepLR(optimizerG, step_size=7500, gamma=0.5)
+
 img_list = []
 img_evol = []
 G_losses = []
@@ -110,7 +114,8 @@ for epoch in range(num_epochs):
         errD_fake.backward()
         D_G_z1 = output.mean().item()
         errD = errD_real + errD_fake
-        optimizerD.step()
+        #optimizerD.step()
+        schedulerD.step()
 
         # update G network
         netG.zero_grad()
@@ -119,7 +124,8 @@ for epoch in range(num_epochs):
         errG = criterion(output, label)
         errG.backward()
         D_G_z2 = output.mean().item()
-        optimizerG.step()
+        #optimizerG.step()
+        schedulerG.step()
 
         # training status
         if i % 50 == 0:
