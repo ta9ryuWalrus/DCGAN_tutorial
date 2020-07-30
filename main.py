@@ -32,7 +32,7 @@ nz = 100
 ngf = 64
 # Size of feature maps in discreminator
 ndf = 64
-num_epochs = 10
+num_epochs = 15
 lr = 0.0002
 beta1 = 0.5
 ngpu = 2
