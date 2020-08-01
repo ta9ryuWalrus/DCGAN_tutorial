@@ -19,6 +19,7 @@ torch.manual_seed(manualSeed)
 # Root directory for dataset
 dataroot = "data/celeba"
 resultroot = "result/"
+modelroot = "trained_model/"
 # Number of workers for dataloader
 workers = 8
 batch_size = 128
@@ -31,7 +32,7 @@ nz = 100
 ngf = 64
 # Size of feature maps in discreminator
 ndf = 64
-num_epochs = 10
+num_epochs = 5
 lr = 0.0002
 beta1 = 0.5
 ngpu = 2
@@ -137,7 +138,8 @@ for epoch in range(num_epochs):
         
         iters += 1
 
-torch.save(model.state_dict(), 'model.pth')
+torch.save(netD.state_dict(), modelroot + 'netD.pth')
+torch.save(netG.state_dict(), modelroot + 'netG.pth')
 
 # loss
 plt.figure(figsize=(10, 5))
