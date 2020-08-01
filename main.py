@@ -12,8 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from model import Generator, Discriminator
 
-manualSeed = random.randint(1,10000)
-print("Random Seed: ", manualSeed)
+manualSeed = 111
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
@@ -32,7 +31,7 @@ nz = 100
 ngf = 64
 # Size of feature maps in discreminator
 ndf = 64
-num_epochs = 15
+num_epochs = 10
 lr = 0.0002
 beta1 = 0.5
 ngpu = 2
@@ -80,10 +79,6 @@ fake_label = 0
 optimizerD = optim.Adam(netD.parameters(), lr=lr, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr, betas=(beta1, 0.999))
 
-# use learning rate scheduler
-schedulerD = optim.lr_scheduler.StepLR(optimizerD, step_size=7500, gamma=0.5)
-schedulerG = optim.lr_scheduler.StepLR(optimizerG, step_size=7500, gamma=0.5)
-
 img_list = []
 img_evol = []
 G_losses = []
@@ -96,7 +91,6 @@ for epoch in range(num_epochs):
     for i, data in enumerate(dataloader, 0):
         # update D network
         # train with real batch
-        #netD.zero_grad()
         optimizerD.zero_grad()
         real_cpu = data[0].to(device)
         b_size = real_cpu.size(0)
@@ -116,10 +110,8 @@ for epoch in range(num_epochs):
         D_G_z1 = output.mean().item()
         errD = errD_real + errD_fake
         optimizerD.step()
-        schedulerD.step()
 
         # update G network
-        #netG.zero_grad()
         optimizerG.zero_grad()
         label.fill_(real_label)
         output = netD(fake).view(-1)
@@ -127,7 +119,6 @@ for epoch in range(num_epochs):
         errG.backward()
         D_G_z2 = output.mean().item()
         optimizerG.step()
-        schedulerG.step()
 
         # training status
         if i % 50 == 0:
@@ -145,6 +136,8 @@ for epoch in range(num_epochs):
                 img_evol.append(fake[0])
         
         iters += 1
+
+torch.save(model.state_dict(), 'model.pth')
 
 # loss
 plt.figure(figsize=(10, 5))
