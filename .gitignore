@@ -4,3 +4,11 @@
 *.pkl
 *.jpg
 *.zip
+*.tex
+*.aux
+*.dvi
+*.fdb_latexmk
+*.fls
+*.pdf
+*.synctex.gz
+*.log
