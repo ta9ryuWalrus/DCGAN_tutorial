@@ -12,3 +12,6 @@
 *.pdf
 *.synctex.gz
 *.log
+*.bib
+*.bbl
+*.blg
