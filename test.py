@@ -75,7 +75,7 @@ std_D = sem(accD)
 m_G = mean(accG)
 std_G = sem(accG)
 
-s = "D(x) = %.4f +- %.4f\n D(G(z)) = %.4f +- %.4f" % (m_D, std_D, m_G, std_G)
+s = "D(x) = %.4f +- %.4f\nD(G(z)) = %.4f +- %.4f" % (m_D, std_D, m_G, std_G)
 print(s)
 
 with open(resultroot + 'accuracy.txt', mode='w') as f:
