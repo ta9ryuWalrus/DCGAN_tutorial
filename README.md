@@ -1,1 +1,3 @@
 DCGANを実装して動かしてみるリポジトリ
+
+dataフォルダ内のファイルは[Chaz ReidさんのGithub](https://gist.github.com/charlesreid1/4f3d676b33b95fce83af08e4ec261822)より拝借したもので、doit.shを実行することでCelebAデータセットがダウンロードできる。
