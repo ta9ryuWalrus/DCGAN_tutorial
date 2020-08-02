@@ -67,8 +67,8 @@ for i, data in enumerate(dataloader, 0):
         D_G_z = output.mean().item() # fakeを誤ってrealと識別した割合
         D_G_zs.append(D_G_z)
 
-acc_D = np.array(D_xs)
-acc_G = np.array(D_G_zs)
+accD = np.array(D_xs)
+accG = np.array(D_G_zs)
 
 m_D = mean(accD)
 std_D = sem(accD)
