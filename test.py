@@ -12,7 +12,7 @@ from model import Generator, Discriminator
 from scipy.stats import sem, t
 from scipy import mean
 
-manualSeed = 777
+manualSeed = 111
 random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
